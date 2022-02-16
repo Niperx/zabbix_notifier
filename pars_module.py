@@ -11,7 +11,7 @@ session = requests.Session()
 r = session.get(url_login, headers = user_agent)
 
 session.headers.update({'Referer': url_login})
-session.headers.update({'User-Agent': user_agent})
+session.headers.update(user_agent)
 _xsrf = session.cookies.get('_xsrf', domain="monitor.st65.ru/")
   # 
 post_request = session.post(url_login, {
@@ -21,8 +21,8 @@ post_request = session.post(url_login, {
       'enter': 'Sign in'
  })
 
-def main(url = url, session = session):
-  adress = [0]
+def main():
+
   vremm = [0]
 
   response = session.get(url)
@@ -38,6 +38,8 @@ def main(url = url, session = session):
   # vrem = soup.find_all('td',class_='timeline-date')
 
   start_time = time.time()
+
+  adress = [0]
   for item in quotes: 
     item_attr = item.get('data-menu-popup')
     if str(item_attr)[1:14] == '"type":"host"':
