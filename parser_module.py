@@ -6,7 +6,8 @@ from bs4 import BeautifulSoup
 from config import USERNAME, PASSWORD, url_login, url, user_agent
 
 session = requests.Session()
-
+# is_pars_start = False
+# debug_pars_costil = 0
 session.headers.update({'Referer': url_login})
 session.headers.update(user_agent)
 _xsrf = session.cookies.get('_xsrf', domain="monitor.st65.ru/")
@@ -36,8 +37,17 @@ def get_addresses(page):
 
     return addresses[:10]
 
-while True:
+# while True:
+#     # if is_pars_start == True and debug_pars_costil < 1:
+#     #     print('Парс начался, урааа')
+#     #     debug_pars_costil += 1
+#     result = get_addresses(get_page())
+#     with open("info.json", 'w', encoding='utf-8') as write_info:
+#         json.dump(result, write_info, ensure_ascii=False, indent=4)
+#     #is_pars_start = True
+#     time.sleep(1)
+
+def pars():
     result = get_addresses(get_page())
     with open("info.json", 'w', encoding='utf-8') as write_info:
-        json.dump(result, write_info, ensure_ascii=False, indent=4)
-    time.sleep(1)
+         json.dump(result, write_info, ensure_ascii=False, indent=4)

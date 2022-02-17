@@ -3,7 +3,7 @@ import json
 from aiogram.utils.exceptions import BotBlocked
 from aiogram import Bot, Dispatcher, executor, types, asyncio
 
-# import parser_module as pars
+import parser_module as pars
 from config import TOKEN
 
 
@@ -13,7 +13,7 @@ id_access = [388850647, 252457864, 102749042, 674126672, 190112213]
 cmds = ['Прозвон', 'Кабельтест', 'todo']
 
 addr = []
-addresss = ' '
+address = ''
 
 todoo = ['Оптимизация парсинга', 'Решаем с глобальными переменками',
          'Добавить всех старших', 'Оптимизация работы в автономном режиме',
@@ -49,7 +49,10 @@ async def cmd_start(message: types.Message):
 
 @dp.message_handler()
 async def get_message(message: types.Message):
-    print(str(message.from_user.id) + ' Написал ' + message.text)
+    try:
+        print(f"@{str(message.from_user.username)} Написал - \"{message.text}\"")
+    except:
+        print(f"{str(message.from_user.id)} Написал - \"{message.text}\"")
     if message.text == "Пиу Пиу":
         await message.answer('Ты что, Кабельтест? ')
     elif message.text == "Кабельтест":
@@ -69,7 +72,7 @@ async def get_message(message: types.Message):
             await message.answer('Каво?', reply_markup=get_keyboard(addr))
 
             # print("--- %s seconds ---" % (time.time() - start_time))
-            print(message.chat.username + ' Нажал на прозвон')
+            print('@' + message.chat.username + ' Нажал - \"Прозвон\"')
 
 
 @dp.callback_query_handler()
@@ -86,14 +89,13 @@ async def callbacks_num(call):
         yakeyboard = types.InlineKeyboardMarkup(row_width=1)
         yakeyboard.add(*buttons)
         address = str(addr[int(call.data)])
-        await bot.send_message(-747200418, '❗️' + address + '❗️ Прозвоните по свету и ТВ Позязя ',
-                               reply_markup=yakeyboard)
+        await bot.send_message(-747200418, '❗️' + str(addr[int(call.data)]) + '❗️ Прозвоните по свету и ТВ Позязя и передайте привет Кириллу', reply_markup=yakeyboard)
 
-'''
-  requests.get('https://api.telegram.org/bot{}/sendMessage'.format(tokenbot), params=dict(
-  chat_id='-747200418',
-  text='❗️' +  str(addr[int(call.data)]) + '❗️ Прозвоните по свету и ТВ Позязя '))
-'''
+
+#  requests.get('https://api.telegram.org/bot{}/sendMessage'.format(tokenbot), params=dict(
+#  chat_id='-747200418',
+#  text='❗️' +  str(addr[int(call.data)]) + '❗️ Прозвоните по свету и ТВ Позязя '))
+
 
 
 @dp.errors_handler(exception=BotBlocked)
@@ -106,12 +108,15 @@ async def cmd_block(message: types.Message):
     await asyncio.sleep(10.0)  # Здоровый сон на 10 секунд
     await message.reply("Вы заблокированы")
 
+
+
 if __name__ == "__main__":
     executor.start_polling(dp, skip_updates=True)
+    asyncio.sleep(1)
+    pars.pars()
+    asyncio.sleep(1)
 
-'''
+
 
 # https://docs.st65.ru/dosearchsite.action?cql=siteSearch+~+%22%D0%93%D0%BE%D1%80%D0%BE%D0%B4%D0%B0+%22&queryString=%D0%93%D0%BE%D1%80%D0%BE%D0%B4%D0%B0+
 # Чат айди мэйн группы -787891312
-
-'''
