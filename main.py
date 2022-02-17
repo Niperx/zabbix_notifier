@@ -3,7 +3,7 @@ import time
 from aiogram.utils.exceptions import BotBlocked
 from aiogram import Bot, Dispatcher, executor, types
 
-import pars_module as pars
+import parser_module as pars
 from config import TOKEN
 
 #ops
@@ -12,7 +12,7 @@ id_access = [388850647, 252457864, 102749042, 674126672, 190112213]
 cmds = ['Прозвон', 'Кабельтест', 'todo']
 
 addr = []
-adresss = ' '
+addresss = ' '
 
 todoo = ['Оптимизация парсинга', 'Решаем с глобальными переменками',
          'Добавить всех старших', 'Оптимизация работы в автономном режиме',
@@ -23,7 +23,6 @@ todoo = ['Оптимизация парсинга', 'Решаем с глоба�
 # ПОЛЕТЕЛИ!
 print("Бот запущен. Нажмите Ctrl+C для завершения")
 
-
 # Функции
 def get_keyboard(addr):
     buttons = []
@@ -32,7 +31,6 @@ def get_keyboard(addr):
     keyboard = types.InlineKeyboardMarkup(row_width=1, resize_keyboard=True)
     keyboard.add(*buttons)
     return keyboard
-
 
 # Запуск
 bot = Bot(token=TOKEN)
@@ -76,10 +74,10 @@ async def get_message(message: types.Message):
 
 @dp.callback_query_handler()
 async def callbacks_num(call):
-    global adresss
+    global addresss
     if call.data == 'zabral':
         # print (call.from_user.username)
-        await call.message.edit_text('❗️' + adresss + '❗️ Прозвоните по свету и ТВ Позязя ')
+        await call.message.edit_text('❗️' + addresss + '❗️ Прозвоните по свету и ТВ Позязя ')
         await call.message.answer('@' + str(call.from_user.username) + ' Забрал(а) прозвон  - Спасибо больше ! ')
     else:
         await call.message.edit_text(text='☀' + str(addr[
@@ -88,10 +86,9 @@ async def callbacks_num(call):
         buttons.append(types.InlineKeyboardButton(text='Я Заберу ', callback_data='zabral'))
         yakeyboard = types.InlineKeyboardMarkup(row_width=1)
         yakeyboard.add(*buttons)
-        adresss = str(addr[int(call.data)])
-        await bot.send_message(-747200418, '❗️' + adresss + '❗️ Прозвоните по свету и ТВ Позязя ',
+        addresss = str(addr[int(call.data)])
+        await bot.send_message(-747200418, '❗️' + addresss + '❗️ Прозвоните по свету и ТВ Позязя ',
                                reply_markup=yakeyboard)
-
 
 '''
   requests.get('https://api.telegram.org/bot{}/sendMessage'.format(tokenbot), params=dict(
@@ -102,25 +99,20 @@ async def callbacks_num(call):
 
 @dp.errors_handler(exception=BotBlocked)
 async def error_bot_blocked(update: types.Update, exception: BotBlocked):
-    # Update: объект события от Telegram. Exception: объект исключения
-    # Здесь можно как-то обработать блокировку, например, удалить пользователя из БД
     print(f"Меня заблокировал пользователь!\nСообщение: {update}\nОшибка: {exception}")
 
-    # Такой хэндлер должен всегда возвращать True,
-    # если дальнейшая обработка не требуется.
     return True
 
 
-@dp.message_handler(commands="block")
-async def cmd_block(message: types.Message):
-    await asyncio.sleep(10.0)  # Здоровый сон на 10 секунд
-    await message.reply("Вы заблокированы")
+# @dp.message_handler(commands="block")
+# async def cmd_block(message: types.Message):
+#     await time.sleep(10.0)  # Здоровый сон на 10 секунд
+#     await message.reply("Вы заблокированы")
 
 
 if __name__ == "__main__":
     # Запуск бота
     executor.start_polling(dp, skip_updates=True)
-
 '''
 
 # https://docs.st65.ru/dosearchsite.action?cql=siteSearch+~+%22%D0%93%D0%BE%D1%80%D0%BE%D0%B4%D0%B0+%22&queryString=%D0%93%D0%BE%D1%80%D0%BE%D0%B4%D0%B0+
