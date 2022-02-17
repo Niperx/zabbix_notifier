@@ -1,10 +1,11 @@
+import time
+import json
 import requests
 from bs4 import BeautifulSoup
 
 from config import USERNAME, PASSWORD, url_login, url, user_agent
 
 session = requests.Session()
-# r = session.get(url_login, headers=user_agent)
 
 session.headers.update({'Referer': url_login})
 session.headers.update(user_agent)
@@ -16,6 +17,8 @@ post_request = session.post(url_login, {
     'autologin': '1',
     'enter': 'Sign in'
 })
+
+result = []
 
 def get_page():
     response = session.get(url)
@@ -31,7 +34,10 @@ def get_addresses(page):
         if '"type":"host"' in str(item_attr):
             addresses.append(item.text)
 
-    for i in addresses:
-        print(i)
-
     return addresses[:10]
+
+while True:
+    result = get_addresses(get_page())
+    with open("info.json", 'w', encoding='utf-8') as write_info:
+        json.dump(result, write_info, ensure_ascii=False, indent=4)
+    time.sleep(1)
