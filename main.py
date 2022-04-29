@@ -8,8 +8,7 @@ from config import TOKEN
 
 
 #ops
-id_access = [388850647, 252457864, 102749042, 674126672, 190112213]
-#               Я       Кирилл     Водопьянов   Толя
+id_access = [1, 2, 3, 4] # Admin IDs
 cmds = ['Прозвон', 'Кабельтест', 'todo']
 
 addr = []
@@ -20,10 +19,7 @@ todoo = ['Оптимизация парсинга', 'Решаем с глоба�
          'Залить на бэкап', 'Оптимизация кнопок', 'Система обработки',
          'Новые Функции - Стата за день по звонкам,кабельтест (проблема с впн),допрос по времени тех кто взял прозвон']
 
-# ПОЛЕТЕЛИ!
-print("Бот запущен. Нажмите Ctrl+C для завершения")
-
-# Функции
+# Funcs
 def get_keyboard(addr):
     buttons = []
     for i in range(10):
@@ -32,7 +28,7 @@ def get_keyboard(addr):
     keyboard.add(*buttons)
     return keyboard
 
-# Запуск
+# Start
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 logging.basicConfig(level=logging.INFO)
@@ -79,7 +75,6 @@ async def get_message(message: types.Message):
 async def callbacks_num(call):
     global address
     if call.data == 'zabral':
-        # print (call.from_user.username)
         await call.message.edit_text('❗️' + address + '❗️ Прозвоните по свету и ТВ Позязя ')
         await call.message.answer('@' + str(call.from_user.username) + ' Забрал(а) прозвон  - Спасибо большое ! ')
     else:
@@ -92,16 +87,11 @@ async def callbacks_num(call):
         await bot.send_message(-747200418, '❗️' + str(addr[int(call.data)]) + '❗️ Прозвоните по свету и ТВ Позязя и передайте привет Кириллу', reply_markup=yakeyboard)
 
 
-#  requests.get('https://api.telegram.org/bot{}/sendMessage'.format(tokenbot), params=dict(
-#  chat_id='-747200418',
-#  text='❗️' +  str(addr[int(call.data)]) + '❗️ Прозвоните по свету и ТВ Позязя '))
-
-
-
 @dp.errors_handler(exception=BotBlocked)
 async def error_bot_blocked(update: types.Update, exception: BotBlocked):
     print(f"Меня заблокировал пользователь!\nСообщение: {update}\nОшибка: {exception}")
     return True
+
 
 @dp.message_handler(commands="block")
 async def cmd_block(message: types.Message):
@@ -109,14 +99,8 @@ async def cmd_block(message: types.Message):
     await message.reply("Вы заблокированы")
 
 
-
 if __name__ == "__main__":
     executor.start_polling(dp, skip_updates=True)
     asyncio.sleep(1)
     pars.pars()
     asyncio.sleep(1)
-
-
-
-# https://docs.st65.ru/dosearchsite.action?cql=siteSearch+~+%22%D0%93%D0%BE%D1%80%D0%BE%D0%B4%D0%B0+%22&queryString=%D0%93%D0%BE%D1%80%D0%BE%D0%B4%D0%B0+
-# Чат айди мэйн группы -787891312
